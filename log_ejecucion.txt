@@ -1,0 +1,10 @@
+2026-09-23 22:25:41 | BCRP PD31895MM | filas=96 | HTTP=200 | https://estadisticas.bcrp.gob.pe/estadisticas/series/api/PD31895MM/json/2018-1/2025-12/esp 
+2026-09-23 22:25:43 | FRED GS1 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:45 | FRED GS2 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:46 | FRED GS3 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:48 | FRED GS5 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:49 | FRED GS7 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:50 | FRED GS10 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:52 | FRED GS20 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:25:53 | FRED GS30 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-23 22:37:22 | LIMPIEZA | meses=96 (descartados 0 por faltantes) | atipicos=0 | filas panel=480 | bonos=5 | SHA-256=91b5746d4ae70e6cadd9f771d16bfdbe1845a01b7ef1cec79f811af1a21358cb 
