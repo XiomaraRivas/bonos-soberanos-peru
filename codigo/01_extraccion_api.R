@@ -1,13 +1,13 @@
 # Autora: Xiomara Heydi Rivas Ames
 # Código de matrícula: 2024200520M
 # Tema N.º 34 del temario: Duración y convexidad de un bono soberano peruano: medición del riesgo de tasa
-# Fecha de extracción: COMPLETAR (AAAA-MM-DD)
+# Fecha de extracción: 2026-09-24
 
 # ---------------------------------------------------------------------------
 # 01_extraccion_api.R
 # Vía API (numeral 2.4.1, Unidad I):
-#   - BCRPData: rendimiento del bono del gobierno peruano a 10 años en soles (PD31895MM)
-#   - FRED: curva del Tesoro de EE. UU. por plazo (GS1 ... GS30), mensual
+#   - BCRPData: rendimiento del bono del gobierno peruano a 10 años en soles (PD31893DD), diaria
+#   - FRED: curva del Tesoro de EE. UU. por plazo (DGS1 ... DGS30), diaria
 # Guarda las respuestas JSON originales y los crudos en CSV y Excel, sin editar.
 # Se ejecuta desde el proyecto de RStudio: todas las rutas son relativas.
 # ---------------------------------------------------------------------------
@@ -21,8 +21,8 @@ FECHA_INICIO <- "2018-01-01"
 FECHA_CORTE  <- "2025-12-31"
 CODIGO       <- "2024200520M"
 
-SERIE_BCRP  <- "PD31895MM"                           # rendimiento bono soberano 10 años, S/
-SERIES_FRED <- c("GS1", "GS2", "GS3", "GS5", "GS7", "GS10", "GS20", "GS30")
+SERIE_BCRP  <- "PD31893DD"                           # rendimiento bono soberano 10 años, S/, diaria
+SERIES_FRED <- c("DGS1", "DGS2", "DGS3", "DGS5", "DGS7", "DGS10", "DGS20", "DGS30")  # diarias
 
 USER_AGENT <- "UNCP-Finanzas-I proyecto academico (e_2024200520M@uncp.edu.pe)"
 
@@ -41,15 +41,10 @@ registrar <- function(fuente, filas, http, url) {
   message(linea)
 }
 
-# BCRPData pide los periodos mensuales como "2018-1"
-periodo_bcrp <- function(fecha) {
-  d <- as.Date(fecha)
-  paste0(format(d, "%Y"), "-", as.integer(format(d, "%m")))
-}
-
 # ---- 3. Extracción BCRPData ---------------------------------------------------
+# Para series diarias, BCRPData recibe las fechas como AAAA-MM-DD
 url_bcrp <- sprintf("https://estadisticas.bcrp.gob.pe/estadisticas/series/api/%s/json/%s/%s/esp",
-                    SERIE_BCRP, periodo_bcrp(FECHA_INICIO), periodo_bcrp(FECHA_CORTE))
+                    SERIE_BCRP, FECHA_INICIO, FECHA_CORTE)
 
 resp <- tryCatch(GET(url_bcrp, user_agent(USER_AGENT), timeout(60)),
                  error = function(e) stop("Sin conexión con BCRPData: ", e$message))
@@ -64,7 +59,7 @@ writeLines(texto, file.path("datos_crudos", paste0("bcrp_", SERIE_BCRP, "_", COD
 
 js   <- fromJSON(texto)
 bcrp <- data.frame(serie   = SERIE_BCRP,
-                   periodo = js$periods$name,                         # ej. "Ene.2018"
+                   periodo = js$periods$name,                         # ej. "02.Ene.18"
                    valor   = sapply(js$periods$values, `[`, 1),       # texto, "n.d." incluido
                    stringsAsFactors = FALSE)
 

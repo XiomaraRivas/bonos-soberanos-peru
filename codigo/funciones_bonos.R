@@ -1,7 +1,7 @@
 # Autora: Xiomara Heydi Rivas Ames
 # Código de matrícula: 2024200520M
 # Tema N.º 34 del temario: Duración y convexidad de un bono soberano peruano: medición del riesgo de tasa
-# Fecha de extracción: COMPLETAR (AAAA-MM-DD)
+# Fecha de extracción: 2026-09-24
 
 # ---------------------------------------------------------------------------
 # funciones_bonos.R

@@ -1,7 +1,7 @@
 # Autora: Xiomara Heydi Rivas Ames
 # Código de matrícula: 2024200520M
 # Tema N.º 34 del temario: Duración y convexidad de un bono soberano peruano: medición del riesgo de tasa
-# Fecha de extracción: COMPLETAR (AAAA-MM-DD)
+# Fecha de extracción: 2026-09-24
 
 # ---------------------------------------------------------------------------
 # 04_analisis.R
@@ -26,7 +26,7 @@ dir.create("salidas", showWarnings = FALSE)
 panel <- read.csv(paste0("datos_procesados/datos_procesados_", CODIGO, ".csv"))
 panel$fecha <- as.Date(panel$fecha)
 panel$fecha_vencimiento <- as.Date(panel$fecha_vencimiento)
-curva <- read.csv(paste0("datos_procesados/curva_mensual_", CODIGO, ".csv"))
+curva <- read.csv(paste0("datos_procesados/curva_diaria_", CODIGO, ".csv"))
 curva$fecha <- as.Date(curva$fecha)
 
 guardar_tabla <- function(df, nombre) {
@@ -73,10 +73,10 @@ t3[, -(1:2)] <- round(t3[, -(1:2)], 4)
 guardar_tabla(t3, "tabla3_shocks_de_tasa")
 
 # ---- Tabla 4: traspaso EE. UU. -> Perú y escenarios de estrés ------------------
-# Regresión en primeras diferencias mensuales: Δy_PE = α + β·Δy_US + ε
+# Regresión en primeras diferencias diarias: Δy_PE = α + β·Δy_US + ε
 curva <- curva[order(curva$fecha), ]
 d_pe <- diff(curva$rend_pe_10a)
-d_us <- diff(curva$GS10)
+d_us <- diff(curva$DGS10)
 modelo <- lm(d_pe ~ d_us)
 coefs  <- summary(modelo)$coefficients
 beta   <- coefs["d_us", "Estimate"]
@@ -87,7 +87,7 @@ t4a <- data.frame(parametro = c("alfa", "beta"), estimado = coefs[, 1], error_es
 t4a[, -1] <- round(t4a[, -1], 4)
 guardar_tabla(t4a, "tabla4a_regresion_traspaso")
 
-# Escenarios: (i) histórico = mayor alza mensual observada del rendimiento peruano
+# Escenarios: (i) histórico = mayor alza diaria observada del rendimiento peruano
 #             (ii) importado = alza de 100 pb en el Tesoro de EE. UU. × β
 escenarios <- c(historico = max(d_pe, na.rm = TRUE) * 100, importado_100pb = beta * 100)
 t4b <- list()
@@ -106,12 +106,12 @@ guardar_tabla(do.call(rbind, t4b), "tabla4b_escenarios_estres")
 # ---- Figura 1: rendimientos y spread --------------------------------------------
 png("salidas/figura1_rendimientos_spread.png", width = 1600, height = 1000, res = 160)
 par(mfrow = c(2, 1), mar = c(3, 4.5, 2, 1))
-plot(curva$fecha, curva$rend_pe_10a, type = "l", lwd = 2, col = "firebrick",
-     ylim = range(c(curva$rend_pe_10a, curva$GS10), na.rm = TRUE),
+plot(curva$fecha, curva$rend_pe_10a, type = "l", lwd = 1.5, col = "firebrick",
+     ylim = range(c(curva$rend_pe_10a, curva$DGS10), na.rm = TRUE),
      xlab = "", ylab = "Rendimiento (%)", main = "Bono soberano a 10 años")
-lines(curva$fecha, curva$GS10, lwd = 2, col = "navy")
+lines(curva$fecha, curva$DGS10, lwd = 1.5, col = "navy")
 legend("topleft", c("Perú (S/)", "EE. UU."), col = c("firebrick", "navy"), lwd = 2, bty = "n")
-plot(curva$fecha, curva$spread_pb, type = "l", lwd = 2, col = "darkgreen",
+plot(curva$fecha, curva$spread_pb, type = "l", lwd = 1.5, col = "darkgreen",
      xlab = "", ylab = "Puntos básicos", main = "Spread Perú - EE. UU.")
 dev.off()
 

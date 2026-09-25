@@ -1,11 +1,12 @@
 # Autora: Xiomara Heydi Rivas Ames
 # Código de matrícula: 2024200520M
 # Tema N.º 34 del temario: Duración y convexidad de un bono soberano peruano: medición del riesgo de tasa
-# Fecha de extracción: COMPLETAR (AAAA-MM-DD)
+# Fecha de extracción: 2026-09-24
 
 # ---------------------------------------------------------------------------
 # 03_limpieza_datos.R
-# 1. Limpia los crudos de BCRP y FRED y los une por la fecha (mes).
+# 1. Limpia los crudos diarios de BCRP y FRED y los une por la fecha (día).
+#    Solo se conservan los días con dato en ambos mercados (Perú y EE. UU.).
 # 2. Construye el rendimiento de cada bono a su plazo residual:
 #      ytm = rendimiento del Tesoro EE. UU. a ese plazo (interpolado)
 #            + spread soberano Perú - EE. UU. a 10 años
@@ -30,19 +31,19 @@ BONOS <- data.frame(
   stringsAsFactors = FALSE
 )
 
-PLAZOS <- c(GS1 = 1, GS2 = 2, GS3 = 3, GS5 = 5, GS7 = 7, GS10 = 10, GS20 = 20, GS30 = 30)
+PLAZOS <- c(DGS1 = 1, DGS2 = 2, DGS3 = 3, DGS5 = 5, DGS7 = 7, DGS10 = 10, DGS20 = 20, DGS30 = 30)
 MESES  <- c(Ene = 1, Feb = 2, Mar = 3, Abr = 4, May = 5, Jun = 6, Jul = 7,
             Ago = 8, Set = 9, Sep = 9, Oct = 10, Nov = 11, Dic = 12)
 
 dir.create("datos_procesados", showWarnings = FALSE)
 LOG <- "log_ejecucion.txt"
 
-# ---- 1. BCRP: "Ene.2018" -> 2018-01-01 ; "n.d." -> NA -------------------------
+# ---- 1. BCRP: "02.Ene.18" -> 2018-01-02 ; "n.d." -> NA -------------------------
 bcrp <- read.csv(paste0("datos_crudos/datos_crudos_bcrp_", CODIGO, ".csv"),
                  colClasses = "character", encoding = "UTF-8")
 partes <- strsplit(bcrp$periodo, ".", fixed = TRUE)
 pe <- data.frame(
-  fecha       = as.Date(sapply(partes, function(p) sprintf("%s-%02d-01", p[2], MESES[p[1]]))),
+  fecha       = as.Date(sapply(partes, function(p) sprintf("20%s-%02d-%s", p[3], MESES[p[2]], p[1]))),
   rend_pe_10a = suppressWarnings(as.numeric(bcrp$valor))
 )
 
@@ -54,15 +55,15 @@ fred$valor <- suppressWarnings(as.numeric(fred$valor))
 curva <- reshape(fred, idvar = "fecha", timevar = "serie", direction = "wide")
 names(curva) <- sub("valor.", "", names(curva), fixed = TRUE)
 
-# ---- 3. Unión por fecha y control de faltantes y valores atípicos ------------
+# ---- 3. Unión por fecha (días comunes) y control de faltantes y atípicos -----
 curva <- merge(pe, curva, by = "fecha")
 curva <- curva[order(curva$fecha), ]
 n_ini <- nrow(curva)
-curva <- curva[!is.na(curva$rend_pe_10a) & !is.na(curva$GS10), ]
+curva <- curva[!is.na(curva$rend_pe_10a) & !is.na(curva$DGS10), ]
 atipicos <- sum(curva$rend_pe_10a < 0 | curva$rend_pe_10a > 20)   # rango plausible
-curva$spread_pb <- round((curva$rend_pe_10a - curva$GS10) * 100, 2)
+curva$spread_pb <- round((curva$rend_pe_10a - curva$DGS10) * 100, 2)
 
-write.csv(curva, paste0("datos_procesados/curva_mensual_", CODIGO, ".csv"), row.names = FALSE)
+write.csv(curva, paste0("datos_procesados/curva_diaria_", CODIGO, ".csv"), row.names = FALSE)
 
 # ---- 4. Panel instrumento + fecha: rendimiento, precio, duración, convexidad --
 filas <- list()
@@ -100,7 +101,7 @@ write.csv(panel, salida, row.names = FALSE, fileEncoding = "UTF-8")
 write_xlsx(panel, paste0("datos_procesados/datos_procesados_", CODIGO, ".xlsx"))
 
 hash <- digest(file = salida, algo = "sha256")
-linea <- sprintf(paste("%s | LIMPIEZA | meses=%d (descartados %d por faltantes)",
+linea <- sprintf(paste("%s | LIMPIEZA | dias=%d (descartados %d por faltantes)",
                        "| atipicos=%d | filas panel=%d | bonos=%d | SHA-256=%s"),
                  format(Sys.time(), "%Y-%m-%d %H:%M:%S"), nrow(curva), n_ini - nrow(curva),
                  atipicos, nrow(panel), length(unique(panel$instrumento)), hash)

@@ -1,10 +1,10 @@
-2026-09-23 22:25:41 | BCRP PD31895MM | filas=96 | HTTP=200 | https://estadisticas.bcrp.gob.pe/estadisticas/series/api/PD31895MM/json/2018-1/2025-12/esp 
-2026-09-23 22:25:43 | FRED GS1 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:45 | FRED GS2 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:46 | FRED GS3 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:48 | FRED GS5 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:49 | FRED GS7 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:50 | FRED GS10 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:52 | FRED GS20 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:25:53 | FRED GS30 | filas=96 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
-2026-09-23 22:37:22 | LIMPIEZA | meses=96 (descartados 0 por faltantes) | atipicos=0 | filas panel=480 | bonos=5 | SHA-256=91b5746d4ae70e6cadd9f771d16bfdbe1845a01b7ef1cec79f811af1a21358cb 
+2026-09-24 20:54:41 | BCRP PD31893DD | filas=2088 | HTTP=200 | https://estadisticas.bcrp.gob.pe/estadisticas/series/api/PD31893DD/json/2018-01-01/2025-12-31/esp 
+2026-09-24 20:54:43 | FRED DGS1 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:45 | FRED DGS2 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:46 | FRED DGS3 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:47 | FRED DGS5 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:49 | FRED DGS7 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:50 | FRED DGS10 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:51 | FRED DGS20 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:54:53 | FRED DGS30 | filas=2088 | HTTP=200 | https://api.stlouisfed.org/fred/series/observations 
+2026-09-24 20:55:59 | LIMPIEZA | dias=1909 (descartados 179 por faltantes) | atipicos=0 | filas panel=9545 | bonos=5 | SHA-256=689edf668c3efef94c9011c07785e9ad5dcbb24dc92633db1c8e0b23f7e17a38 
