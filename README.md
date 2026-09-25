@@ -13,8 +13,11 @@
 
 **Clave de FRED:** crear una cuenta gratuita en https://fredaccount.stlouisfed.org/apikeys, copiar `.env.example` como `.env` y pegar la clave.
 
-## Periodo congelado
-`FECHA_INICIO = 2018-01-01` · `FECHA_CORTE = 2025-12-31` · frecuencia diaria · 5 bonos (≈ 10 000 observaciones) (llave: instrumento + fecha).
+## Periodo congelado y resultado de la extracción
+- `FECHA_INICIO = 2018-01-01` · `FECHA_CORTE = 2025-12-31` · frecuencia diaria.
+- Fecha de extracción: 2026-09-24 (ver `log_ejecucion.txt`).
+- BCRPData: 2 088 filas; FRED: 2 088 filas por serie (HTTP 200 en todas).
+- Base procesada: 1 909 días comunes (179 descartados por faltantes) × 5 bonos = **9 545 observaciones**. Llave: instrumento + fecha.
 
 ## Orden de ejecución (RStudio)
 1. Abrir `bonos_soberanos.Rproj`.
@@ -25,7 +28,7 @@
 6. `source("codigo/04_analisis.R")`
 
 ## Versiones
-R y librerías: ver `sessionInfo.txt` (lo genera 03).
+R 4.5.1. Versiones exactas de las librerías: ver `sessionInfo.txt` (lo genera 03).
 
 ## Verificación
 SHA-256 de `datos_procesados/datos_procesados_2024200520M.csv`:
