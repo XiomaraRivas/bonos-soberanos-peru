@@ -11,7 +11,7 @@
 #      ytm = rendimiento del Tesoro EE. UU. a ese plazo (interpolado)
 #            + spread soberano Perú - EE. UU. a 10 años
 #    Supuesto declarado: el spread se traslada en paralelo a toda la curva.
-# 3. Calcula precio, duración modificada y convexidad de cada bono cada mes.
+# 3. Calcula precio, duración modificada y convexidad de cada bono cada día.
 # 4. Genera datos_procesados_<código>.csv (llave: instrumento + fecha),
 #    su hash SHA-256 y sessionInfo.txt.
 # ---------------------------------------------------------------------------
