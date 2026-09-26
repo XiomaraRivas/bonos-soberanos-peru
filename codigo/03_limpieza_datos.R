@@ -23,7 +23,7 @@ source("codigo/funciones_bonos.R")
 CODIGO <- "2024200520M"
 
 # Bonos soberanos nominales en soles analizados (condiciones de emisión).
-# VERIFICAR cupón y vencimiento en el Perú: Reporte Diario del MEF antes de la corrida final.
+# Verificado con el Reporte Diario del MEF del 12/12/2025.
 BONOS <- data.frame(
   instrumento = c("SB2026", "SB2028", "SB2032", "SB2037", "SB2042"),
   cupon       = c(8.20, 6.35, 6.15, 6.90, 6.85),

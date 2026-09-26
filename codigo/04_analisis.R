@@ -119,13 +119,15 @@ dev.off()
 png("salidas/figura2_duracion_modificada.png", width = 1600, height = 900, res = 160)
 bonos   <- unique(panel$instrumento)
 colores <- c("firebrick", "darkorange", "darkgreen", "navy", "purple")
-plot(NA, xlim = range(panel$fecha), ylim = range(panel$dur_mod),
+plot(NA, xlim = range(panel$fecha), ylim = range(panel$dur_mod), xaxt = "n",
      xlab = "", ylab = "Duración modificada (años)", main = "Duración modificada por bono")
+axis.Date(1, at = seq(as.Date("2018-01-01"), as.Date("2026-01-01"), by = "2 years"),
+          format = "%Y")                                 # eje x en años
 for (k in seq_along(bonos)) {
   s <- panel[panel$instrumento == bonos[k], ]
   lines(s$fecha, s$dur_mod, lwd = 2, col = colores[k])
 }
-legend("topright", bonos, col = colores, lwd = 2, bty = "n")
+legend("bottomleft", bonos, col = colores, lwd = 2, bty = "n")
 dev.off()
 
 # ---- Figura 3: precio-rendimiento del bono más largo a la fecha de corte ---------
